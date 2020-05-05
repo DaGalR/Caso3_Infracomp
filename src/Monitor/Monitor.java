@@ -12,10 +12,8 @@ import javax.management.ObjectName;
 
 public class Monitor {
 
-	private File file;
-
-	public Monitor(File archivo) {
-		this.file = archivo;
+	public Monitor() {
+		
 	}
 	public double getSystemCpuLoad() throws Exception {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();

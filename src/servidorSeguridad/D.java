@@ -92,7 +92,7 @@ public class D implements Runnable {
 
 		String feedback;
 		String linea;
-		System.out.println(dlg + "Empezando atencion.");
+		System.out.println(dlg + "Empezando atencion con file " +file.getName() );
 		try {
 
 			PrintWriter ac = new PrintWriter(sc.getOutputStream() , true);
