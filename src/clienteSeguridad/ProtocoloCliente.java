@@ -68,8 +68,6 @@ public class ProtocoloCliente {
 		int contadorProtocolo = 0;
 
 
-
-
 		try {
 			generator = KeyPairGenerator.getInstance("RSA");
 			keyPair = generator.generateKeyPair();

@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.security.KeyPair;
 import java.security.Security;
 import java.security.cert.X509Certificate;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class C {
@@ -17,12 +19,11 @@ public class C {
 	private static final String MAESTRO = "MAESTRO: ";
 	private static X509Certificate certSer; /* acceso default */
 	private static KeyPair keyPairServidor; /* acceso default */
-	
+	private static File file;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{
-		// TODO Auto-generated method stub
 
 		System.out.println(MAESTRO + "Establezca puerto de conexion:");
 		InputStreamReader isr = new InputStreamReader(System.in);
@@ -36,31 +37,58 @@ public class C {
 		File file = null;
 		keyPairServidor = S.grsa();
 		certSer = S.gc(keyPairServidor); 
-		String ruta = "./resultados.txt";
-		   
-        file = new File(ruta);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        FileWriter fw = new FileWriter(file);
-        fw.close();
+//		String ruta = "./resultados.txt";
+//		   
+//        file = new File(ruta);
+//        if (!file.exists()) {
+//            file.createNewFile();
+//        }
+//        FileWriter fw = new FileWriter(file);
+//        fw.close();
 
         D.init(certSer, keyPairServidor,file);
         
 		// Crea el socket que escucha en el puerto seleccionado.
 		ss = new ServerSocket(ip);
+		System.out.println("Por favor introduzca el número máximo de threads que quiere en el pool ");
+		int nThreads = Integer.parseInt(br.readLine());
+		
+		//Crea pool de threads con parámetro recibido de consola
+		ExecutorService pool = Executors.newFixedThreadPool(nThreads);
+		
 		System.out.println(MAESTRO + "Socket creado.");
         
 		for (int i=0;true;i++) {
 			try { 
 				Socket sc = ss.accept();
+				pool.execute(new D(sc, i));
 				System.out.println(MAESTRO + "Cliente " + i + " aceptado.");
-				D d = new D(sc,i);
-				d.start();
+				//D d = new D(sc,i);
+				//d.start();
 			} catch (IOException e) {
 				System.out.println(MAESTRO + "Error creando el socket cliente.");
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void escribirLog(String mensaje) {
+		synchronized(this) {
+			String ruta = "./resultados.txt";
+		
+	        file = new File(ruta);
+	        if (!file.exists()) {
+	            try {
+					file.createNewFile();
+					FileWriter fw = new FileWriter(file);
+					fw.write(mensaje);
+			        fw.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+	        
 		}
 	}
 }

@@ -20,8 +20,6 @@ public class Cliente {
 		System.out.println("Cliente...");
 		BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 		
-		
-		
 		try {
 			socket = new Socket(SERVIDOR,PUERTO);
 			escritor = new PrintWriter(socket.getOutputStream(), true);
