@@ -1,5 +1,8 @@
-package Monitor;
+package monitor;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
 import javax.management.Attribute;
@@ -8,9 +11,11 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 public class Monitor {
-	
-	public Monitor() {
-		
+
+	private File file;
+
+	public Monitor(File archivo) {
+		this.file = archivo;
 	}
 	public double getSystemCpuLoad() throws Exception {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
@@ -23,6 +28,7 @@ public class Monitor {
 		if (value == -1.0) return Double.NaN;
 		// returns a percentage value with 1 decimal point precision
 		return ((int)(value * 1000) / 10.0);
-		}
+	}
 	
+
 }
