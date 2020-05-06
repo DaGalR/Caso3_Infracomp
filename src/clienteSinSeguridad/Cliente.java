@@ -1,4 +1,4 @@
-package clienteSeguridad;
+package clienteSinSeguridad;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 
@@ -8,7 +8,6 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-
 
 public class Cliente {
 	public static final int PUERTO = 8080;
@@ -39,6 +38,5 @@ public class Cliente {
 		lector.close();
 		socket.close();
 	}
-
 	
 }

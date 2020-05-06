@@ -1,4 +1,4 @@
-package servidorSeguridad;
+package servidorSinSeguridad;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +12,7 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import monitor.Monitor;
 
 
@@ -20,7 +21,6 @@ public class C {
 	private static final String MAESTRO = "MAESTRO: ";
 	private static X509Certificate certSer; /* acceso default */
 	private static KeyPair keyPairServidor; /* acceso default */
-	public static int contInst=0;
 
 	/**
 	 * @param args
@@ -46,24 +46,26 @@ public class C {
 			file.createNewFile();
 		}
 
+		FileWriter fw = new FileWriter(file);
+		fw.close();
 
 		D.init(certSer, keyPairServidor,file);
 
 		// Crea el socket que escucha en el puerto seleccionado.
 		ss = new ServerSocket(ip);
-		System.out.println("Por favor introduzca el nï¿½mero mï¿½ximo de threads que quiere en el pool ");
+		System.out.println("Por favor introduzca el número máximo de threads que quiere en el pool ");
 		int nThreads = Integer.parseInt(br.readLine());
 
-		//Crea pool de threads con parï¿½metro recibido de consola
+		//Crea pool de threads con parámetro recibido de consola
 		ExecutorService pool = Executors.newFixedThreadPool(nThreads);
 
 		System.out.println(MAESTRO + "Socket creado.");
-
-		for (int contInst=0;true;contInst++) {
-			System.out.println("Contador en for" + contInst);
+		
+		for (int i=0;true;i++) {
 			try { 
 				Socket sc = ss.accept();
-				System.out.println(MAESTRO + "Cliente " + contInst + " aceptado.");
+				pool.execute(new D(sc, i));
+				System.out.println(MAESTRO + "Cliente " + i + " aceptado.");
 				//D d = new D(sc,i);
 				//d.start();
 			} catch (IOException e) {
@@ -71,9 +73,7 @@ public class C {
 				e.printStackTrace();
 			}
 		}
-		
-
 	}
 
- 
+
 }

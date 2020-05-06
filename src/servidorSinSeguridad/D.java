@@ -1,4 +1,4 @@
-package servidorSeguridad;
+package servidorSinSeguridad;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -21,9 +21,6 @@ import monitor.Monitor;
 
 public class D implements Runnable {
 
-	//---------------------------------------------------------
-	// Constantes
-	//---------------------------------------------------------
 	public static final String OK = "OK";
 	public static final String ALGORITMOS = "ALGORITMOS";
 	public static final String CERTSRV = "CERTSRV";
@@ -35,20 +32,14 @@ public class D implements Runnable {
 	public static final String REC = "recibio-";
 	public static final String ENVIO = "envio-";
 
-	//---------------------------------------------------------
 	// Atributos
-	//---------------------------------------------------------
 	private Socket sc = null;
 	private String dlg;
 	private byte[] mybyte;
 	private static X509Certificate certSer;
-	private static KeyPair keyPairServidor; 
+	private static KeyPair keyPairServidor;
 	private static File file;
 	public static final int numCadenas = 13;
-	private long time_start, time_end, time;
-	private static int contInstExitoso; 
-	private int idP;
-
 
 	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile) {
 		certSer = pCertSer;
@@ -58,7 +49,6 @@ public class D implements Runnable {
 
 	public D (Socket csP, int idP) {
 		sc = csP;
-		this.idP=idP;
 		dlg = new String("delegado " + idP + ": ");
 		try {
 			mybyte = new byte[520]; 
@@ -85,15 +75,13 @@ public class D implements Runnable {
 	 * - Es el ÃƒÂºnico metodo permitido para escribir en el log.
 	 */
 	private void escribirMensaje(String pCadena) {
-		synchronized(file)
-		{
-			try {
-				FileWriter fw = new FileWriter(file,true);
-				fw.write(pCadena + "\n");
-				fw.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
+		try {
+			FileWriter fw = new FileWriter(file,true);
+			fw.write(pCadena + "\n");
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -105,7 +93,6 @@ public class D implements Runnable {
 		String feedback;
 		String linea;
 		System.out.println(dlg + "Empezando atencion con file " +file.getName() );
-		time_start = System.currentTimeMillis();
 		try {
 
 			PrintWriter ac = new PrintWriter(sc.getOutputStream() , true);
@@ -117,11 +104,11 @@ public class D implements Runnable {
 				ac.println(ERROR);
 				sc.close();
 				throw new Exception(dlg + ERROR + REC + linea +"-terminando.");
-
+				
 			} else {
 				ac.println(OK);
 				cadenas[0] = dlg + REC + linea + "-continuando.";
-
+				
 				System.out.println(cadenas[0]);
 			}
 
@@ -186,9 +173,9 @@ public class D implements Runnable {
 
 			/***** Fase 5: Envia llave simetrica *****/
 			SecretKey simetrica = S.kgg(algoritmos[1]);
-			byte [ ] ciphertext1 = S.ae(simetrica.getEncoded(), 
-					certificadoCliente.getPublicKey(), algoritmos[2]);
-			ac.println(toHexString(ciphertext1));
+			//byte [ ] ciphertext1 = S.ae(simetrica.getEncoded(), 
+			//		certificadoCliente.getPublicKey(), algoritmos[2]);
+			ac.println("Soy una llave simétrica");
 			cadenas[7] = dlg +  ENVIO + "llave K_SC al cliente. continuado.";
 			System.out.println(cadenas[7]);
 
@@ -199,18 +186,18 @@ public class D implements Runnable {
 			while (strReto.length()%4!=0) strReto += "0";
 
 			String reto = strReto;
-			byte[] bytereto = toByteArray(reto);
-			byte [] cipherreto = S.se(bytereto, simetrica, algoritmos[1]);
-			ac.println(toHexString(cipherreto));
+			//byte[] bytereto = toByteArray(reto);
+			//byte [] cipherreto = S.se(bytereto, simetrica, algoritmos[1]);
+			ac.println(reto);
 			cadenas[8] = dlg + ENVIO + reto + "-reto al cliente. continuando ";
 			System.out.println(cadenas[8]);
 
 			/***** Fase 6: Recibe reto del cliente *****/
 			linea = dc.readLine();
-			byte[] retodelcliente = S.ad(
-					toByteArray(linea), 
-					keyPairServidor.getPrivate(), algoritmos[2] );
-			String strdelcliente = toHexString(retodelcliente);
+			//byte[] retodelcliente = S.ad(
+			//		toByteArray(linea), 
+			//		keyPairServidor.getPrivate(), algoritmos[2] );
+			String strdelcliente = linea;
 			if (strdelcliente.equals(reto)) {
 				cadenas[9] = dlg + REC + strdelcliente + "-reto correcto. continuado.";
 				System.out.println(cadenas[9]);
@@ -223,9 +210,9 @@ public class D implements Runnable {
 
 			/***** Fase 7: Recibe identificador de usuario *****/
 			linea = dc.readLine();
-			byte[] retoByte = toByteArray(linea);
-			byte [ ] ciphertext2 = S.sd(retoByte, simetrica, algoritmos[1]);
-			String nombre = toHexString(ciphertext2);
+			//byte[] retoByte = toByteArray(linea);
+			//byte [ ] ciphertext2 = S.sd(retoByte, simetrica, algoritmos[1]);
+			String nombre = linea;
 			cadenas[10] = dlg + REC + nombre + "-continuando";
 			System.out.println(cadenas[10]);
 
@@ -239,24 +226,19 @@ public class D implements Runnable {
 			else
 				strvalor = ((hora) * 100 + minuto) + "";
 			while (strvalor.length()%4!=0) strvalor = "0" + strvalor;
-			byte[] valorByte = toByteArray(strvalor);
-			byte [ ] ciphertext3 = S.se(valorByte, simetrica, algoritmos[1]);
-			ac.println(toHexString(ciphertext3));
+			//byte[] valorByte = toByteArray(strvalor);
+			//byte [ ] ciphertext3 = S.se(valorByte, simetrica, algoritmos[1]);
+			ac.println(strvalor);
 			cadenas[11] = dlg + ENVIO + strvalor + "-cifrado con K_SC. continuado.";
 			System.out.println(cadenas[11]);
 
 			linea = dc.readLine();	
 			if (linea.equals(OK)) {
-				time_end = System.currentTimeMillis();
-				time = time_end-time_start;
 				cadenas[12] = dlg + REC + linea + "-Terminando exitosamente.";
-				contInstExitoso++;
 				System.out.println(cadenas[12]);
 			} else {
 				cadenas[12] = dlg + REC + linea + "-Terminando con error";
 				System.out.println(cadenas[12]);
-				time_end = System.currentTimeMillis();
-				time = time_end-time_start;
 			}
 			sc.close();
 
@@ -265,15 +247,6 @@ public class D implements Runnable {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		escribirMensaje("TRANSACCIONES PERDIDAS," +idP+","+ (C.contInst-contInstExitoso));
-		escribirMensaje("TIEMPO TRANSACCIÓN," +idP+","+ (time));
-		try {
-			escribirMensaje("USO GPU," +idP+","+ (Monitor.getSystemCpuLoad()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -285,4 +258,5 @@ public class D implements Runnable {
 	public static byte[] toByteArray(String s) {
 		return DatatypeConverter.parseBase64Binary(s);
 	}
+
 }
