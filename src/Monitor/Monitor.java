@@ -1,4 +1,4 @@
-package monitor;
+package Monitor;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,7 +15,7 @@ public class Monitor {
 	public Monitor() {
 		
 	}
-	public double getSystemCpuLoad() throws Exception {
+	public static double getSystemCpuLoad() throws Exception {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
 		AttributeList list = mbs.getAttributes(name, new String[]{ "SystemCpuLoad" });
@@ -27,6 +27,5 @@ public class Monitor {
 		// returns a percentage value with 1 decimal point precision
 		return ((int)(value * 1000) / 10.0);
 	}
-	
 
 }

@@ -17,10 +17,13 @@ import java.util.Random;
 import javax.crypto.SecretKey;
 import javax.xml.bind.DatatypeConverter;
 
-import monitor.Monitor;
+import Monitor.Monitor;
 
 public class D implements Runnable {
 
+	//---------------------------------------------------------
+	// Constantes
+	//---------------------------------------------------------
 	public static final String OK = "OK";
 	public static final String ALGORITMOS = "ALGORITMOS";
 	public static final String CERTSRV = "CERTSRV";
@@ -32,14 +35,20 @@ public class D implements Runnable {
 	public static final String REC = "recibio-";
 	public static final String ENVIO = "envio-";
 
+	//---------------------------------------------------------
 	// Atributos
+	//---------------------------------------------------------
 	private Socket sc = null;
 	private String dlg;
 	private byte[] mybyte;
 	private static X509Certificate certSer;
-	private static KeyPair keyPairServidor;
+	private static KeyPair keyPairServidor; 
 	private static File file;
 	public static final int numCadenas = 13;
+	private long time_start, time_end, time;
+	private static int contInstExitoso; 
+	private int idP;
+
 
 	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile) {
 		certSer = pCertSer;
@@ -49,6 +58,7 @@ public class D implements Runnable {
 
 	public D (Socket csP, int idP) {
 		sc = csP;
+		this.idP=idP;
 		dlg = new String("delegado " + idP + ": ");
 		try {
 			mybyte = new byte[520]; 
@@ -75,13 +85,15 @@ public class D implements Runnable {
 	 * - Es el Ãºnico metodo permitido para escribir en el log.
 	 */
 	private void escribirMensaje(String pCadena) {
-
-		try {
-			FileWriter fw = new FileWriter(file,true);
-			fw.write(pCadena + "\n");
-			fw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		synchronized(file)
+		{
+			try {
+				FileWriter fw = new FileWriter(file,true);
+				fw.write(pCadena + "\n");
+				fw.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -93,6 +105,7 @@ public class D implements Runnable {
 		String feedback;
 		String linea;
 		System.out.println(dlg + "Empezando atencion con file " +file.getName() );
+		time_start = System.currentTimeMillis();
 		try {
 
 			PrintWriter ac = new PrintWriter(sc.getOutputStream() , true);
@@ -104,11 +117,11 @@ public class D implements Runnable {
 				ac.println(ERROR);
 				sc.close();
 				throw new Exception(dlg + ERROR + REC + linea +"-terminando.");
-				
+
 			} else {
 				ac.println(OK);
 				cadenas[0] = dlg + REC + linea + "-continuando.";
-				
+
 				System.out.println(cadenas[0]);
 			}
 
@@ -234,11 +247,16 @@ public class D implements Runnable {
 
 			linea = dc.readLine();	
 			if (linea.equals(OK)) {
+				time_end = System.currentTimeMillis();
+				time = time_end-time_start;
 				cadenas[12] = dlg + REC + linea + "-Terminando exitosamente.";
+				contInstExitoso++;
 				System.out.println(cadenas[12]);
 			} else {
 				cadenas[12] = dlg + REC + linea + "-Terminando con error";
 				System.out.println(cadenas[12]);
+				time_end = System.currentTimeMillis();
+				time = time_end-time_start;
 			}
 			sc.close();
 
@@ -247,6 +265,15 @@ public class D implements Runnable {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		escribirMensaje("TRANSACCIONES PERDIDAS," +idP+","+ (C.contInst-contInstExitoso));
+		escribirMensaje("TIEMPO TRANSACCI�N," +idP+","+ (time));
+		try {
+			escribirMensaje("USO GPU," +idP+","+ (Monitor.getSystemCpuLoad()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -258,5 +285,4 @@ public class D implements Runnable {
 	public static byte[] toByteArray(String s) {
 		return DatatypeConverter.parseBase64Binary(s);
 	}
-
 }

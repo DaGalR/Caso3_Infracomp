@@ -13,7 +13,7 @@ import java.security.cert.X509Certificate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import monitor.Monitor;
+import Monitor.Monitor;
 
 
 public class C {
@@ -21,6 +21,7 @@ public class C {
 	private static final String MAESTRO = "MAESTRO: ";
 	private static X509Certificate certSer; /* acceso default */
 	private static KeyPair keyPairServidor; /* acceso default */
+	public static int contInst=0;
 
 	/**
 	 * @param args
@@ -46,8 +47,6 @@ public class C {
 			file.createNewFile();
 		}
 
-		FileWriter fw = new FileWriter(file);
-		fw.close();
 
 		D.init(certSer, keyPairServidor,file);
 
@@ -61,11 +60,13 @@ public class C {
 
 		System.out.println(MAESTRO + "Socket creado.");
 
-		for (int i=0;true;i++) {
+		for (int contInst=0;true;contInst++) {
+			System.out.println("Contador en for" + contInst);
 			try { 
 				Socket sc = ss.accept();
-				pool.execute(new D(sc, i));
-				System.out.println(MAESTRO + "Cliente " + i + " aceptado.");
+				pool.execute(new D(sc, contInst));
+				FileWriter fw = new FileWriter(file);
+				System.out.println(MAESTRO + "Cliente " + contInst + " aceptado.");
 				//D d = new D(sc,i);
 				//d.start();
 			} catch (IOException e) {
@@ -73,7 +74,9 @@ public class C {
 				e.printStackTrace();
 			}
 		}
+		
+
 	}
 
-
+ 
 }
