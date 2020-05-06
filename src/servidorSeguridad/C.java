@@ -64,8 +64,6 @@ public class C {
 			System.out.println("Contador en for" + contInst);
 			try { 
 				Socket sc = ss.accept();
-				pool.execute(new D(sc, contInst));
-				FileWriter fw = new FileWriter(file);
 				System.out.println(MAESTRO + "Cliente " + contInst + " aceptado.");
 				//D d = new D(sc,i);
 				//d.start();
