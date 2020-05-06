@@ -14,7 +14,12 @@ public class Cliente {
 	public static final int PUERTO = 8080;
 	public static final String SERVIDOR = "localhost";
 	
-	public static void main(String[] args) throws IOException{
+	
+	public Cliente()
+	{
+	}
+	
+	public void procesar() throws IOException{
 		Socket socket = null;
 		PrintWriter escritor = null;
 		BufferedReader lector = null;
