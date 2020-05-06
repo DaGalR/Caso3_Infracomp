@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+
 public class Cliente {
 	public static final int PUERTO = 8080;
 	public static final String SERVIDOR = "localhost";
@@ -38,5 +39,6 @@ public class Cliente {
 		lector.close();
 		socket.close();
 	}
+
 	
 }
