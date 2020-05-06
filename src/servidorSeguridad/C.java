@@ -12,7 +12,7 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import monitor.Monitor;
+import Monitor.Monitor;
 
 
 public class C {
@@ -63,8 +63,6 @@ public class C {
 			System.out.println("Contador en for" + contInst);
 			try { 
 				Socket sc = ss.accept();
-				pool.execute(new D(sc, contInst));
-				FileWriter fw = new FileWriter(file);
 				System.out.println(MAESTRO + "Cliente " + contInst + " aceptado.");
 				//D d = new D(sc,i);
 				//d.start();
