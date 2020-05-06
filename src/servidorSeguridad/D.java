@@ -47,7 +47,6 @@ public class D implements Runnable {
 	private static int contInstExitoso; 
 	private int idP;
 
-
 	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile) {
 		certSer = pCertSer;
 		keyPairServidor = pKeyPairServidor;

@@ -21,13 +21,14 @@ public class C {
 	private static final String MAESTRO = "MAESTRO: ";
 	private static X509Certificate certSer; /* acceso default */
 	private static KeyPair keyPairServidor; /* acceso default */
-	public static int contInst=0;
-
+	public static int contInst;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{
 
+		
 		System.out.println(MAESTRO + "Establezca puerto de conexion:");
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
