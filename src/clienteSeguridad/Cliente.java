@@ -36,7 +36,7 @@ public class Cliente {
 		}
 		
 		
-		ProtocoloCliente.procesar(stdIn,lector,escritor);
+		clienteSeguridad.ProtocoloCliente.procesar(stdIn,lector,escritor);
 		
 		stdIn.close();
 		escritor.close();

@@ -1,3 +1,16 @@
+delegado 1: recibio-HOLA-continuando.
+delegado 1: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 1: envio-OK-continuando.
+delegado 1: recibio-certificado del cliente. continuando.
+delegado 1: envio-OK-continuando.
+delegado 1: envio- certificado del servidor. continuando.
+delegado 1: recibio-OK-continuando.
+delegado 1: envio-llave K_SC al cliente. continuado.
+delegado 1: envio-1990-reto al cliente. continuando 
+delegado 1: recibio-1990-reto correcto. continuado.
+delegado 1: recibio-OTg3Ng==-continuando
+delegado 1: envio-2315-cifrado con K_SC. continuado.
+delegado 1: recibio-OK-Terminando exitosamente.
 delegado 0: recibio-HOLA-continuando.
 delegado 0: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
 delegado 0: envio-OK-continuando.
@@ -6,8 +19,62 @@ delegado 0: envio-OK-continuando.
 delegado 0: envio- certificado del servidor. continuando.
 delegado 0: recibio-OK-continuando.
 delegado 0: envio-llave K_SC al cliente. continuado.
-delegado 0: envio-2590-reto al cliente. continuando 
-delegado 0: recibio-2590-reto correcto. continuado.
-delegado 0: recibio-9876-continuando
-delegado 0: envio-2046-cifrado con K_SC. continuado.
+delegado 0: envio-4400-reto al cliente. continuando 
+delegado 0: recibio-4400-reto correcto. continuado.
+delegado 0: recibio-OTg3Ng==-continuando
+delegado 0: envio-2315-cifrado con K_SC. continuado.
 delegado 0: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS,1,-2
+TRANSACCIONES PERDIDAS,0,-2
+TIEMPO TRANSACCIÓN,1,4382
+TIEMPO TRANSACCIÓN,0,5364
+USO GPU,1,0.0
+USO GPU,0,0.0
+delegado 3: recibio-HOLA-continuando.
+delegado 3: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 3: envio-OK-continuando.
+delegado 3: recibio-certificado del cliente. continuando.
+delegado 3: envio-OK-continuando.
+delegado 3: envio- certificado del servidor. continuando.
+delegado 3: recibio-OK-continuando.
+delegado 3: envio-llave K_SC al cliente. continuado.
+delegado 3: envio-2440-reto al cliente. continuando 
+delegado 3: recibio-2440-reto correcto. continuado.
+delegado 3: recibio-OTg3Ng==-continuando
+delegado 3: envio-2315-cifrado con K_SC. continuado.
+delegado 3: recibio-OK-Terminando exitosamente.
+delegado 2: recibio-HOLA-continuando.
+delegado 2: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 2: envio-OK-continuando.
+delegado 2: recibio-certificado del cliente. continuando.
+delegado 2: envio-OK-continuando.
+delegado 2: envio- certificado del servidor. continuando.
+delegado 2: recibio-OK-continuando.
+delegado 2: envio-llave K_SC al cliente. continuado.
+delegado 2: envio-8320-reto al cliente. continuando 
+delegado 2: recibio-8320-reto correcto. continuado.
+delegado 2: recibio-OTg3Ng==-continuando
+delegado 2: envio-2315-cifrado con K_SC. continuado.
+delegado 2: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS,3,-4
+TRANSACCIONES PERDIDAS,2,-4
+TIEMPO TRANSACCIÓN,3,39
+TIEMPO TRANSACCIÓN,2,64
+USO GPU,3,0.0
+USO GPU,2,0.0
+delegado 4: recibio-HOLA-continuando.
+delegado 4: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 4: envio-OK-continuando.
+delegado 4: recibio-certificado del cliente. continuando.
+delegado 4: envio-OK-continuando.
+delegado 4: envio- certificado del servidor. continuando.
+delegado 4: recibio-OK-continuando.
+delegado 4: envio-llave K_SC al cliente. continuado.
+delegado 4: envio-9280-reto al cliente. continuando 
+delegado 4: recibio-9280-reto correcto. continuado.
+delegado 4: recibio-OTg3Ng==-continuando
+delegado 4: envio-2315-cifrado con K_SC. continuado.
+delegado 4: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS,4,-5
+TIEMPO TRANSACCIÓN,4,41
+USO GPU,4,0.0

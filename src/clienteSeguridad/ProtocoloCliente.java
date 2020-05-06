@@ -79,29 +79,30 @@ public class ProtocoloCliente {
 				if(contadorProtocolo==0 || contadorProtocolo==1)
 				{
 					System.out.println("INSTRUCCIÓN: Escriba el mensaje a enviar al servidor: ");
-					resCliente=stdIn.readLine();
+					resCliente="HOLA";
 
 
 					// Se saluda al servidor
-					if(resCliente.equals("HOLA")) 
+					if(resCliente.equals("HOLA") && contadorProtocolo==0) 
 					{
 						pOut.println(resCliente);
 					}
 					//Se reciben y envian los algoritmos
-					else if(resCliente.contains("ALGORITMOS:"))
+					else if(contadorProtocolo==1)
 					{
+						resCliente="ALGORITMOS:AES:RSA:HMACSHA1";
 						algs = resCliente.split(":");
 						if(algs.length == 4) {
 							algSimElegido=algs[1];
 							algAsimElegido=algs[2];
 							algHMACelegido = algs[3];
-							Thread.sleep(500);
+							//Thread.sleep(500);
 							System.out.println("REPORTE: algoritmo simétrico elegido " + algSimElegido);
-							Thread.sleep(500);
+							//Thread.sleep(500);
 							System.out.println("REPORTE: algoritmo asimétrico elegido " + algAsimElegido);
-							Thread.sleep(500);
+							//Thread.sleep(500);
 							System.out.println("REPORTE: algoritmo Hmac elegido " + algHMACelegido);
-							Thread.sleep(500);
+							//Thread.sleep(500);
 
 							resCliente.trim();
 							pOut.println(resCliente);
@@ -128,11 +129,11 @@ public class ProtocoloCliente {
 						System.out.println("REPORTE: Generando su certificado de cliente... " + cerString);
 						pOut.println(cerString);
 						System.out.println("REPORTE: enviando su certificado de cliente");
-						Thread.sleep(500);
+						//Thread.sleep(500);
 						resServidor=pIn.readLine();
-						Thread.sleep(500);
+						//Thread.sleep(500);
 						System.out.println("RESPUESTA SERVIDOR: " + resServidor);
-						Thread.sleep(500);
+						//Thread.sleep(500);
 
 						//Si todo salio bien con el certificado de cliente, se rescibe el certificado del servidor
 						if(resServidor.equals("OK")) 
@@ -142,15 +143,15 @@ public class ProtocoloCliente {
 							System.out.println("REPORTE: Recibiendo certificado del servidor...");
 							resServidor=pIn.readLine();
 							stringSerServidor = resServidor;
-							Thread.sleep(500);
+							//Thread.sleep(500);
 							System.out.println("REPORTE: Certificado servidor recibido para procesar... " + stringSerServidor);
-							Thread.sleep(500);
+							//Thread.sleep(500);
 							byte[] cerServByte = DatatypeConverter.parseBase64Binary(stringSerServidor);
 							CertificateFactory cf = CertificateFactory.getInstance("X.509");
 							X509Certificate c = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(cerServByte));
 							kPubServ = c.getPublicKey();
 							System.out.println("REPORTE: llave publica de servidor: " + kPubServ);
-							Thread.sleep(500);
+							//Thread.sleep(500);
 
 							boolean valido = verificarCertificado(c);
 
@@ -159,31 +160,32 @@ public class ProtocoloCliente {
 							{
 
 								System.out.println("REPORTE: El certificado recibido del servidor es válido. \nINSTRUCCIÓN: escriba 'OK' para continuar"); 
-								resCliente=stdIn.readLine();
+								resCliente="OK";
 								pOut.println(resCliente);
 
 								System.out.println("REPORTE: Recibiendo respuestas del servidor...");
-								Thread.sleep(500);
+								//Thread.sleep(500);
 								cifradoA = pIn.readLine();
 								cifradoB = pIn.readLine();
 								System.out.println("REPORTE: Recibidos dos cifrados, procesando...");
+								System.out.println("CIFRADO A " + cifradoA);
 								byte[] k_sc = Cifrado.descifrar(keyPair.getPrivate(), "RSA", DatatypeConverter.parseBase64Binary(cifradoA), true);
 								k_scPro = new SecretKeySpec(k_sc, 0, k_sc.length, algSimElegido );
 								byte[] retoByte = Cifrado.descifrar(k_scPro, algSimElegido, DatatypeConverter.parseBase64Binary(cifradoB),false);
 								String retoString = DatatypeConverter.printBase64Binary(retoByte);
-								Thread.sleep(500);
+								//Thread.sleep(500);
 								System.out.println("REPORTE: Reto descifrado "+ retoString);
-								Thread.sleep(500);
+								//Thread.sleep(500);
 
 								System.out.println("REPORTE: Cifrando reto...");
-								Thread.sleep(500);
+								//Thread.sleep(500);
 
 								byte[] retoCifrado = Cifrado.cifrar(kPubServ, algAsimElegido, retoString, true);
 								String retoCifradoString = DatatypeConverter.printBase64Binary(retoCifrado);
 
 								System.out.println("REPORTE: Enviando reto cifrado de vuelta: "+ retoCifradoString);
 								pOut.println(retoCifradoString);
-								Thread.sleep(500);
+								//Thread.sleep(500);
 
 								resServidor = pIn.readLine();
 								System.out.println("RESPUESTA SERVIDOR: "+ resServidor);
@@ -214,11 +216,11 @@ public class ProtocoloCliente {
 				if(contadorProtocolo==4 && k_scPro!=null)
 				{
 					System.out.println("INSTRUCCIÓN: Escriba su identificador (número de 4 dígitos)");
-					resCliente=stdIn.readLine();
+					resCliente="9876";
 					byte[] idCifrado = Cifrado.cifrar(k_scPro, algSimElegido, resCliente, false);
 					String idCifradoStr=DatatypeConverter.printBase64Binary(idCifrado);
 					System.out.println("REPORTE: Enviando al servidor el id cifrado: " + idCifradoStr);
-					Thread.sleep(500);
+					//Thread.sleep(500);
 					
 					pOut.println(idCifradoStr );
 
@@ -233,11 +235,11 @@ public class ProtocoloCliente {
 
 					DateFormat formHora = new SimpleDateFormat("HHmm");
 					Date hora = formHora.parse(horaStr);
-					Thread.sleep(500);
+					//Thread.sleep(500);
 					System.out.println("REPORTE: La hora recibida es: " + hora.getHours() + ":" + hora.getMinutes());
 
 					System.out.println("INSTRUCCIÓN: Si todo está bien, escriba OK para terminar. De lo contrario escriba ERROR");
-					resCliente=stdIn.readLine();
+					resCliente="OK";
 					pOut.println(resCliente);
 					if(resCliente.equals("OK"))
 					{
@@ -255,7 +257,7 @@ public class ProtocoloCliente {
 				}
 				else if(resServidor.equals("OK")) {
 					System.out.println("RESPUESTA SERVIDOR: "+ resServidor);
-					Thread.sleep(500);
+					//Thread.sleep(500);
 					contadorProtocolo++;
 				}
 

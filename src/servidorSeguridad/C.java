@@ -12,7 +12,8 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import Monitor.Monitor;
+import monitor.Monitor;
+import servidorSeguridad.D;
 
 
 public class C {
@@ -63,6 +64,7 @@ public class C {
 			System.out.println("Contador en for" + contInst);
 			try { 
 				Socket sc = ss.accept();
+				pool.execute(new D(sc, contInst));
 				System.out.println(MAESTRO + "Cliente " + contInst + " aceptado.");
 				//D d = new D(sc,i);
 				//d.start();

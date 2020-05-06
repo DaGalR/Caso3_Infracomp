@@ -1,4 +1,4 @@
-package Monitor;
+package monitor;
 
 import java.io.File;
 import java.io.FileWriter;
