@@ -1,4 +1,4 @@
-package clienteSeguridad;
+package clienteSinSeguridad;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -152,7 +152,7 @@ public class ProtocoloCliente {
 							System.out.println("REPORTE: llave publica de servidor: " + kPubServ);
 							//Thread.sleep(500);
 
-							boolean valido = verificarCertificado(c);
+							boolean valido = true;
 
 							//Si el certificado es válido se continua con la ejecuación del progama, se reciben los datos cifrados
 							if(valido)
@@ -167,22 +167,22 @@ public class ProtocoloCliente {
 								cifradoA = pIn.readLine();
 								cifradoB = pIn.readLine();
 								System.out.println("REPORTE: Recibidos dos cifrados, procesando...");
-								byte[] k_sc = Cifrado.descifrar(keyPair.getPrivate(), "RSA", DatatypeConverter.parseBase64Binary(cifradoA), true);
-								k_scPro = new SecretKeySpec(k_sc, 0, k_sc.length, algSimElegido );
-								byte[] retoByte = Cifrado.descifrar(k_scPro, algSimElegido, DatatypeConverter.parseBase64Binary(cifradoB),false);
-								String retoString = DatatypeConverter.printBase64Binary(retoByte);
+								//byte[] k_sc = Cifrado.descifrar(keyPair.getPrivate(), "RSA", DatatypeConverter.parseBase64Binary(cifradoA), true);
+								//k_scPro = new SecretKeySpec(k_sc, 0, k_sc.length, algSimElegido );
+								//byte[] retoByte = Cifrado.descifrar(k_scPro, algSimElegido, DatatypeConverter.parseBase64Binary(cifradoB),false);
+								//String retoString = DatatypeConverter.printBase64Binary(retoByte);
 								//Thread.sleep(500);
-								System.out.println("REPORTE: Reto descifrado "+ retoString);
-								//Thread.sleep(500);
-
-								System.out.println("REPORTE: Cifrando reto...");
+								System.out.println("REPORTE: Reto descifrado "+ cifradoB);
 								//Thread.sleep(500);
 
-								byte[] retoCifrado = Cifrado.cifrar(kPubServ, algAsimElegido, retoString, true);
-								String retoCifradoString = DatatypeConverter.printBase64Binary(retoCifrado);
+								//System.out.println("REPORTE: Cifrando reto...");
+								//Thread.sleep(500);
 
-								System.out.println("REPORTE: Enviando reto cifrado de vuelta: "+ retoCifradoString);
-								pOut.println(retoCifradoString);
+								//byte[] retoCifrado = Cifrado.cifrar(kPubServ, algAsimElegido, retoString, true);
+								//String retoCifradoString = DatatypeConverter.printBase64Binary(cifradoB);
+
+								System.out.println("REPORTE: Enviando reto cifrado de vuelta: "+ cifradoB);
+								pOut.println(cifradoB);
 								//Thread.sleep(500);
 
 								resServidor = pIn.readLine();
@@ -211,29 +211,29 @@ public class ProtocoloCliente {
 				}
 
 				//Etapa de reporte y manejo de actualización
-				if(contadorProtocolo==4 && k_scPro!=null)
+				if(contadorProtocolo==4)
 				{
 					System.out.println("INSTRUCCIÓN: Escriba su identificador (número de 4 dígitos)");
 					
 					resCliente="9876";
-					byte[] idCifrado = Cifrado.cifrar(k_scPro, algSimElegido, resCliente, false);
-					String idCifradoStr=DatatypeConverter.printBase64Binary(idCifrado);
-					System.out.println("REPORTE: Enviando al servidor el id cifrado: " + idCifradoStr);
+					//byte[] idCifrado = Cifrado.cifrar(k_scPro, algSimElegido, resCliente, false);
+					//String idCifradoStr=DatatypeConverter.printBase64Binary(idCifrado);
+					System.out.println("REPORTE: Enviando al servidor el id cifrado: " + resCliente);
 					//Thread.sleep(500);
 					
-					pOut.println(idCifradoStr );
+					pOut.println(resCliente );
 
 					//Se recibe la hora
 					resServidor=pIn.readLine();
 					System.out.println("REPORTE: Se recibe la hora cifrada: " + resServidor);
 
-					byte[] horaBytes = Cifrado.descifrar(k_scPro, algSimElegido, DatatypeConverter.parseBase64Binary(resServidor), false);
+					//byte[] horaBytes = Cifrado.descifrar(k_scPro, algSimElegido, DatatypeConverter.parseBase64Binary(resServidor), false);
 					
-					String horaStr= DatatypeConverter.printBase64Binary(horaBytes);
-					System.out.println(horaStr);
+					//String horaStr= DatatypeConverter.printBase64Binary(horaBytes);
+					System.out.println(resServidor);
 
 					DateFormat formHora = new SimpleDateFormat("HHmm");
-					Date hora = formHora.parse(horaStr);
+					Date hora = formHora.parse(resServidor);
 					//Thread.sleep(500);
 					System.out.println("REPORTE: La hora recibida es: " + hora.getHours() + ":" + hora.getMinutes());
 
