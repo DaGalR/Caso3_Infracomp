@@ -265,10 +265,10 @@ public class D implements Runnable {
 			e.printStackTrace();
 		}
 		
-		escribirMensaje("TRANSACCIONES PERDIDAS," +idP+","+ (C.contInst-contInstExitoso));
-		escribirMensaje("TIEMPO TRANSACCIÓN," +idP+","+ (time));
+		escribirMensaje("TRANSACCIONES PERDIDAS:" +idP+":"+ (C.contInst-contInstExitoso));
+		escribirMensaje("TIEMPO TRANSACCIÓN:" +idP+","+ (time));
 		try {
-			escribirMensaje("USO GPU," +idP+","+ (Monitor.getSystemCpuLoad()));
+			escribirMensaje("USO CPU:" +idP+":"+ (Monitor.getSystemCpuLoad()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -25,7 +25,7 @@ public class Monitor {
 		// usually takes a couple of seconds before we get real values
 		if (value == -1.0) return Double.NaN;
 		// returns a percentage value with 1 decimal point precision
-		return ((int)(value * 1000) / 10.0);
+		return (value * 1000) / 10.0;
 	}
 
 }
