@@ -60,19 +60,22 @@ public class C {
 
 		System.out.println(MAESTRO + "Socket creado.");
 
-		for (int contInst=0;true;contInst++) {
+		for (int i=0;true;i++) {
 			//System.out.println("Contador en for" + contInst);
 			try { 
 				Socket sc = ss.accept();
-				pool.execute(new D(sc, contInst));
-				System.out.println(MAESTRO + "Cliente " + contInst + " aceptado.");
+				pool.execute(new D(sc, i));
+				System.out.println(MAESTRO + "Cliente " + i+ " aceptado.");
 				//D d = new D(sc,i);
 				//d.start();
 			} catch (IOException e) {
 				System.out.println(MAESTRO + "Error creando el socket cliente.");
 				e.printStackTrace();
 			}
+			D.escribirMensajeMedidas("TRANSACCIONES SOLICITADA:"+  i+1 );
 		}
+		
+		
 		
 
 	}
