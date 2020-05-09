@@ -13,7 +13,7 @@ import java.security.cert.X509Certificate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import monitor.Monitor;
+import Monitor.Monitor;
 
 
 public class C {
@@ -53,10 +53,10 @@ public class C {
 
 		// Crea el socket que escucha en el puerto seleccionado.
 		ss = new ServerSocket(ip);
-		System.out.println("Por favor introduzca el número máximo de threads que quiere en el pool ");
+		System.out.println("Por favor introduzca el nï¿½mero mï¿½ximo de threads que quiere en el pool ");
 		int nThreads = Integer.parseInt(br.readLine());
 
-		//Crea pool de threads con parámetro recibido de consola
+		//Crea pool de threads con parï¿½metro recibido de consola
 		ExecutorService pool = Executors.newFixedThreadPool(nThreads);
 
 		System.out.println(MAESTRO + "Socket creado.");

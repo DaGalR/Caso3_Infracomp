@@ -12,9 +12,9 @@ public class Generator {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Por favor escriba el número de tareas a ejecturar");
+		System.out.println("Por favor escriba el nÃºmero de tareas a ejecturar");
 		int numTasks = sc.nextInt();
-		System.out.println("Por favor escriba el tiempo entre tareas");
+		System.out.println("Por favor escriba el tiempo entre tareas (ms)");
 		int tiempoEntreTareas = sc.nextInt();
 		Task tarea = new ClientServerTask();
 		generator = new LoadGenerator("Client-Server load test", numTasks, tarea, tiempoEntreTareas);
