@@ -21,7 +21,6 @@ import javax.management.AttributeList;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.xml.bind.DatatypeConverter;
-import Monitor.Monitor;
 
 public class D implements Runnable {
 
@@ -309,7 +308,7 @@ public class D implements Runnable {
 		escribirMensajeMedidas("TRANSACCIONES PERDIDAS:" +idP+":"+ (C.contInst-contInstExitoso));
 		escribirMensajeMedidas("TIEMPO TRANSACCI�N:" +idP+","+ (time));
 		try {
-			escribirMensajeMedidas("USO CPU:" +idP+":"+ (Monitor.getSystemCpuLoad()));
+			escribirMensajeMedidas("USO CPU:" +idP+":"+ (this.getSystemCpuLoad()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
