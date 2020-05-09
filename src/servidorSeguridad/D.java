@@ -13,11 +13,9 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Random;
-
 import javax.crypto.SecretKey;
 import javax.xml.bind.DatatypeConverter;
-
-import Monitor.Monitor;
+import monitor.Monitor;
 
 public class D implements Runnable {
 
@@ -48,7 +46,6 @@ public class D implements Runnable {
 	private long time_start, time_end, time;
 	private static int contInstExitoso; 
 	private int idP;
-
 
 	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile) {
 		certSer = pCertSer;
@@ -268,10 +265,10 @@ public class D implements Runnable {
 			e.printStackTrace();
 		}
 		
-		escribirMensaje("TRANSACCIONES PERDIDAS," +idP+","+ (C.contInst-contInstExitoso));
-		escribirMensaje("TIEMPO TRANSACCIÓN," +idP+","+ (time));
+		escribirMensaje("TRANSACCIONES PERDIDAS:" +idP+":"+ (C.contInst-contInstExitoso));
+		escribirMensaje("TIEMPO TRANSACCIÓN:" +idP+","+ (time));
 		try {
-			escribirMensaje("USO GPU," +idP+","+ (Monitor.getSystemCpuLoad()));
+			escribirMensaje("USO CPU:" +idP+":"+ (Monitor.getSystemCpuLoad()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -163,7 +163,7 @@ public class ProtocoloCliente {
 								pOut.println(resCliente);
 
 								System.out.println("REPORTE: Recibiendo respuestas del servidor...");
-								Thread.sleep(500);
+								//Thread.sleep(500);
 								cifradoA = pIn.readLine();
 								cifradoB = pIn.readLine();
 								System.out.println("REPORTE: Recibidos dos cifrados, procesando...");

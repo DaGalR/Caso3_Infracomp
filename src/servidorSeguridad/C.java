@@ -12,7 +12,8 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import Monitor.Monitor;
+import monitor.Monitor;
+import servidorSeguridad.D;
 
 
 public class C {
@@ -20,13 +21,14 @@ public class C {
 	private static final String MAESTRO = "MAESTRO: ";
 	private static X509Certificate certSer; /* acceso default */
 	private static KeyPair keyPairServidor; /* acceso default */
-	public static int contInst=0;
-
+	public static int contInst;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{
 
+		
 		System.out.println(MAESTRO + "Establezca puerto de conexion:");
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
@@ -63,6 +65,7 @@ public class C {
 			System.out.println("Contador en for" + contInst);
 			try { 
 				Socket sc = ss.accept();
+				pool.execute(new D(sc, contInst));
 				System.out.println(MAESTRO + "Cliente " + contInst + " aceptado.");
 				//D d = new D(sc,i);
 				//d.start();

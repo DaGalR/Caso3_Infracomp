@@ -1,7 +1,6 @@
 package clienteSeguridad;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutput;
@@ -37,7 +36,7 @@ public class Cliente {
 		}
 		
 		
-		ProtocoloCliente.procesar(stdIn,lector,escritor);
+		clienteSeguridad.ProtocoloCliente.procesar(stdIn,lector,escritor);
 		
 		stdIn.close();
 		escritor.close();
