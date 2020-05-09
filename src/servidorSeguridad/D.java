@@ -54,22 +54,12 @@ public class D implements Runnable {
 	private static int contInst=0; 
 	private int idP;
 
-	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile) {
+	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile, File pMedidas) {
 		certSer = pCertSer;
 		keyPairServidor = pKeyPairServidor;
 		file = pFile;
-		
-		String ruta = "./medidas.txt";
+		fileMedidas = pMedidas;
 
-		fileMedidas = new File(ruta);
-		if (!fileMedidas.exists()) {
-			try {
-				fileMedidas.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 
 	public D (Socket csP, int idP) {
@@ -83,10 +73,6 @@ public class D implements Runnable {
 			System.out.println("Error creando el thread" + dlg);
 			e.printStackTrace();
 		}
-
-		
-
-
 
 	}
 

@@ -46,9 +46,20 @@ public class C {
 		if (!file.exists()) {
 			file.createNewFile();
 		}
+		
+		ruta= "./medidas.txt";
+		File fileMedidas = null;
+		fileMedidas = new File(ruta);
+		if (!fileMedidas.exists()) {
+			try {
+				fileMedidas.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
-
-		D.init(certSer, keyPairServidor,file);
+		D.init(certSer, keyPairServidor,file,fileMedidas);
 
 		// Crea el socket que escucha en el puerto seleccionado.
 		ss = new ServerSocket(ip);
