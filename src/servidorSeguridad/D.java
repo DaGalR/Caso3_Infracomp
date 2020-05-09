@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.net.Socket;
 import java.security.KeyPair;
 import java.security.cert.CertificateFactory;
@@ -14,6 +15,10 @@ import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Random;
 import javax.crypto.SecretKey;
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import javax.xml.bind.DatatypeConverter;
 import monitor.Monitor;
 
@@ -104,7 +109,6 @@ public class D implements Runnable {
 		System.out.println(dlg + "Empezando atencion con file " +file.getName() );
 		time_start = System.currentTimeMillis();
 		try {
-
 			PrintWriter ac = new PrintWriter(sc.getOutputStream() , true);
 			BufferedReader dc = new BufferedReader(new InputStreamReader(sc.getInputStream()));
 
@@ -241,6 +245,9 @@ public class D implements Runnable {
 			ac.println(toHexString(ciphertext3));
 			cadenas[11] = dlg + ENVIO + strvalor + "-cifrado con K_SC. continuado.";
 			System.out.println(cadenas[11]);
+			
+			//System.out.println("Monitor 245 D "+Monitor.getSystemCpuLoad());
+			System.out.println("CPU LOAD D 251 "+getSystemCpuLoad());
 
 			linea = dc.readLine();	
 			if (linea.equals(OK)) {
@@ -281,5 +288,21 @@ public class D implements Runnable {
 
 	public static byte[] toByteArray(String s) {
 		return DatatypeConverter.parseBase64Binary(s);
+	}
+	
+	public double getSystemCpuLoad() throws Exception {
+		//System.out.println("Entro Monitor");
+		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+		ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+		AttributeList list = mbs.getAttributes(name, new String[]{ "SystemCpuLoad" });
+		//System.out.println("Tam lista Monitor "+  list.size());
+		if (list.isEmpty()) return Double.NaN;
+		Attribute att = (Attribute)list.get(0);
+		Double value = (Double)att.getValue();
+		// usually takes a couple of seconds before we get real values
+		if (value == -1.0) return Double.NaN;
+		// returns a percentage value with 1 decimal point precision
+		//System.out.println("Valor Monitor " + ((int)(value*1000)/10));
+		return ((int)(value * 1000) / 10.0);
 	}
 }
