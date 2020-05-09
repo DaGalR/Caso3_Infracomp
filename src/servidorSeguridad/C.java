@@ -83,7 +83,17 @@ public class C {
 				System.out.println(MAESTRO + "Error creando el socket cliente.");
 				e.printStackTrace();
 			}
-			D.escribirMensajeMedidas("TRANSACCIONES SOLICITADA:"+  i+1 );
+			
+			synchronized(fileMedidas)
+			{
+				try {
+					FileWriter fw = new FileWriter(fileMedidas,true);
+					fw.write("TRANSACCIONES SOLICITADAS:"+  i+1  + "\n");
+					fw.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		

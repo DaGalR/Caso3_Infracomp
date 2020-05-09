@@ -108,7 +108,7 @@ public class D implements Runnable {
 	/*
 	 * Para escribir mensajes en el archivo las mediciones. 
 	 */
-	public static void escribirMensajeMedidas(String pCadena) {
+	private void escribirMensajeMedidas(String pCadena) {
 		synchronized(fileMedidas)
 		{
 			try {
