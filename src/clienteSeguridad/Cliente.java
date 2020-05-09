@@ -11,7 +11,7 @@ import java.net.Socket;
 
 public class Cliente {
 	public static final int PUERTO = 8080;
-	public static final String SERVIDOR = "localhost";
+	public static final String SERVIDOR = "172.24.99.143";
 	
 	
 	public Cliente()
