@@ -50,13 +50,26 @@ public class D implements Runnable {
 	private static File fileMedidas;
 	public static final int numCadenas = 13;
 	private long time_start, time_end, time;
-	private static int contInstExitoso; 
+	private static Integer contInstExitoso=0;
+	private static int contInst=0; 
 	private int idP;
 
 	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile) {
 		certSer = pCertSer;
 		keyPairServidor = pKeyPairServidor;
 		file = pFile;
+		
+		String ruta = "./medidas.txt";
+
+		fileMedidas = new File(ruta);
+		if (!fileMedidas.exists()) {
+			try {
+				fileMedidas.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public D (Socket csP, int idP) {
@@ -70,20 +83,11 @@ public class D implements Runnable {
 			System.out.println("Error creando el thread" + dlg);
 			e.printStackTrace();
 		}
-		
-		String ruta = "./medidas.txt";
-
-		fileMedidas = new File(ruta);
-		if (!fileMedidas.exists()) {
-			try {
-				fileMedidas.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
 		
+
+
+
 	}
 
 	private boolean validoAlgHMAC(String nombre) {
@@ -114,11 +118,11 @@ public class D implements Runnable {
 		}
 
 	}
-	
+
 	/*
 	 * Para escribir mensajes en el archivo las mediciones. 
 	 */
-	private void escribirMensajeMedidas(String pCadena) {
+	public static void escribirMensajeMedidas(String pCadena) {
 		synchronized(fileMedidas)
 		{
 			try {
@@ -278,7 +282,7 @@ public class D implements Runnable {
 			ac.println(toHexString(ciphertext3));
 			cadenas[11] = dlg + ENVIO + strvalor + "-cifrado con K_SC. continuado.";
 			System.out.println(cadenas[11]);
-			
+
 			//System.out.println("Monitor 245 D "+Monitor.getSystemCpuLoad());
 			System.out.println("CPU LOAD D 251 "+getSystemCpuLoad());
 
@@ -287,7 +291,10 @@ public class D implements Runnable {
 				time_end = System.currentTimeMillis();
 				time = time_end-time_start;
 				cadenas[12] = dlg + REC + linea + "-Terminando exitosamente.";
-				contInstExitoso++;
+				synchronized(contInstExitoso)
+				{
+					contInstExitoso++;
+				}
 				System.out.println(cadenas[12]);
 			} else {
 				cadenas[12] = dlg + REC + linea + "-Terminando con error";
@@ -304,9 +311,9 @@ public class D implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		escribirMensajeMedidas("TRANSACCIONES PERDIDAS:" +idP+":"+ (C.contInst-contInstExitoso));
-		escribirMensajeMedidas("TIEMPO TRANSACCI�N:" +idP+","+ (time));
+
+		escribirMensajeMedidas("TRANSACCIONES EXITOSAS:" +idP+":"+ (contInstExitoso));
+		escribirMensajeMedidas("TIEMPO TRANSACCIÓN:" +idP+":"+ (time));
 		try {
 			escribirMensajeMedidas("USO CPU:" +idP+":"+ (this.getSystemCpuLoad()));
 		} catch (Exception e) {
@@ -322,7 +329,7 @@ public class D implements Runnable {
 	public static byte[] toByteArray(String s) {
 		return DatatypeConverter.parseBase64Binary(s);
 	}
-	
+
 	public double getSystemCpuLoad() throws Exception {
 		//System.out.println("Entro Monitor");
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
