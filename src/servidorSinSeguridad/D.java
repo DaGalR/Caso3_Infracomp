@@ -17,7 +17,7 @@ import java.util.Random;
 import javax.crypto.SecretKey;
 import javax.xml.bind.DatatypeConverter;
 
-import monitor.Monitor;
+import Monitor.Monitor;
 
 public class D implements Runnable {
 
@@ -175,7 +175,7 @@ public class D implements Runnable {
 			SecretKey simetrica = S.kgg(algoritmos[1]);
 			//byte [ ] ciphertext1 = S.ae(simetrica.getEncoded(), 
 			//		certificadoCliente.getPublicKey(), algoritmos[2]);
-			ac.println("Soy una llave simétrica");
+			ac.println("Soy una llave simï¿½trica");
 			cadenas[7] = dlg +  ENVIO + "llave K_SC al cliente. continuado.";
 			System.out.println(cadenas[7]);
 

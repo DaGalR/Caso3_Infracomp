@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -15,7 +16,7 @@ import java.util.Calendar;
 import java.util.Random;
 import javax.crypto.SecretKey;
 import javax.xml.bind.DatatypeConverter;
-import monitor.Monitor;
+import Monitor.Monitor;
 
 public class D implements Runnable {
 
@@ -42,6 +43,7 @@ public class D implements Runnable {
 	private static X509Certificate certSer;
 	private static KeyPair keyPairServidor; 
 	private static File file;
+	private static File fileMedidas;
 	public static final int numCadenas = 13;
 	private long time_start, time_end, time;
 	private static int contInstExitoso; 
@@ -64,6 +66,20 @@ public class D implements Runnable {
 			System.out.println("Error creando el thread" + dlg);
 			e.printStackTrace();
 		}
+		
+		String ruta = "./medidas.txt";
+
+		fileMedidas = new File(ruta);
+		if (!fileMedidas.exists()) {
+			try {
+				fileMedidas.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		
 	}
 
 	private boolean validoAlgHMAC(String nombre) {
@@ -94,6 +110,24 @@ public class D implements Runnable {
 		}
 
 	}
+	
+	/*
+	 * Para escribir mensajes en el archivo las mediciones. 
+	 */
+	private void escribirMensajeMedidas(String pCadena) {
+		synchronized(fileMedidas)
+		{
+			try {
+				FileWriter fw = new FileWriter(fileMedidas,true);
+				fw.write(pCadena + "\n");
+				fw.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 
 	public void run() {
 		String[] cadenas;
@@ -265,10 +299,10 @@ public class D implements Runnable {
 			e.printStackTrace();
 		}
 		
-		escribirMensaje("TRANSACCIONES PERDIDAS:" +idP+":"+ (C.contInst-contInstExitoso));
-		escribirMensaje("TIEMPO TRANSACCIÓN:" +idP+","+ (time));
+		escribirMensajeMedidas("TRANSACCIONES PERDIDAS:" +idP+":"+ (C.contInst-contInstExitoso));
+		escribirMensajeMedidas("TIEMPO TRANSACCIï¿½N:" +idP+","+ (time));
 		try {
-			escribirMensaje("USO CPU:" +idP+":"+ (Monitor.getSystemCpuLoad()));
+			escribirMensajeMedidas("USO CPU:" +idP+":"+ (Monitor.getSystemCpuLoad()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
