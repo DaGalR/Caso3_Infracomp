@@ -15998,3 +15998,163 @@ TRANSACCIONES PERDIDAS,999,-1000
 TIEMPO TRANSACCIÓN,999,30
 USO GPU,999,86.8
 USO GPU,998,86.8
+delegado 1: recibio-HOLA-continuando.
+delegado 1: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 1: envio-OK-continuando.
+delegado 1: recibio-certificado del cliente. continuando.
+delegado 1: envio-OK-continuando.
+delegado 1: envio- certificado del servidor. continuando.
+delegado 1: recibio-OK-continuando.
+delegado 1: envio-llave K_SC al cliente. continuado.
+delegado 1: envio-8810-reto al cliente. continuando 
+delegado 1: recibio-8810-reto correcto. continuado.
+delegado 1: recibio-OTg3Ng==-continuando
+delegado 1: envio-2029-cifrado con K_SC. continuado.
+delegado 1: recibio-OK-Terminando exitosamente.
+delegado 0: recibio-HOLA-continuando.
+delegado 0: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 0: envio-OK-continuando.
+delegado 0: recibio-certificado del cliente. continuando.
+delegado 0: envio-OK-continuando.
+delegado 0: envio- certificado del servidor. continuando.
+delegado 0: recibio-OK-continuando.
+delegado 0: envio-llave K_SC al cliente. continuado.
+delegado 0: envio-5490-reto al cliente. continuando 
+delegado 0: recibio-5490-reto correcto. continuado.
+delegado 0: recibio-OTg3Ng==-continuando
+delegado 0: envio-2029-cifrado con K_SC. continuado.
+delegado 0: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS:1:-2
+TRANSACCIONES PERDIDAS:0:-2
+TIEMPO TRANSACCIÓN:1,5230
+TIEMPO TRANSACCIÓN:0,6214
+USO CPU:1:0.0
+USO CPU:0:0.0
+delegado 2: recibio-HOLA-continuando.
+delegado 2: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 2: envio-OK-continuando.
+delegado 2: recibio-certificado del cliente. continuando.
+delegado 2: envio-OK-continuando.
+delegado 2: envio- certificado del servidor. continuando.
+delegado 2: recibio-OK-continuando.
+delegado 2: envio-llave K_SC al cliente. continuado.
+delegado 2: envio-3080-reto al cliente. continuando 
+delegado 2: recibio-3080-reto correcto. continuado.
+delegado 2: recibio-OTg3Ng==-continuando
+delegado 2: envio-2029-cifrado con K_SC. continuado.
+delegado 2: recibio-OK-Terminando exitosamente.
+delegado 3: recibio-HOLA-continuando.
+delegado 3: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 3: envio-OK-continuando.
+delegado 3: recibio-certificado del cliente. continuando.
+delegado 3: envio-OK-continuando.
+delegado 3: envio- certificado del servidor. continuando.
+delegado 3: recibio-OK-continuando.
+delegado 3: envio-llave K_SC al cliente. continuado.
+delegado 3: envio-9040-reto al cliente. continuando 
+delegado 3: recibio-9040-reto correcto. continuado.
+delegado 3: recibio-OTg3Ng==-continuando
+delegado 3: envio-2029-cifrado con K_SC. continuado.
+delegado 3: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS:2:-4
+TIEMPO TRANSACCIÓN:2,64
+TRANSACCIONES PERDIDAS:3:-4
+USO CPU:2:0.0
+TIEMPO TRANSACCIÓN:3,64
+USO CPU:3:0.0
+delegado 4: recibio-HOLA-continuando.
+delegado 4: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 4: envio-OK-continuando.
+delegado 4: recibio-certificado del cliente. continuando.
+delegado 4: envio-OK-continuando.
+delegado 4: envio- certificado del servidor. continuando.
+delegado 4: recibio-OK-continuando.
+delegado 4: envio-llave K_SC al cliente. continuado.
+delegado 4: envio-7770-reto al cliente. continuando 
+delegado 4: recibio-7770-reto correcto. continuado.
+delegado 4: recibio-OTg3Ng==-continuando
+delegado 4: envio-2029-cifrado con K_SC. continuado.
+delegado 4: recibio-OK-Terminando exitosamente.
+delegado 5: recibio-HOLA-continuando.
+delegado 5: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 5: envio-OK-continuando.
+delegado 5: recibio-certificado del cliente. continuando.
+delegado 5: envio-OK-continuando.
+delegado 5: envio- certificado del servidor. continuando.
+delegado 5: recibio-OK-continuando.
+delegado 5: envio-llave K_SC al cliente. continuado.
+delegado 5: envio-2120-reto al cliente. continuando 
+delegado 5: recibio-2120-reto correcto. continuado.
+delegado 5: recibio-OTg3Ng==-continuando
+delegado 5: envio-2029-cifrado con K_SC. continuado.
+delegado 5: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS:5:-6
+TRANSACCIONES PERDIDAS:4:-6
+TIEMPO TRANSACCIÓN:5,45
+TIEMPO TRANSACCIÓN:4,44
+USO CPU:5:0.0
+USO CPU:4:0.0
+delegado 6: recibio-HOLA-continuando.
+delegado 6: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 6: envio-OK-continuando.
+delegado 6: recibio-certificado del cliente. continuando.
+delegado 6: envio-OK-continuando.
+delegado 6: envio- certificado del servidor. continuando.
+delegado 6: recibio-OK-continuando.
+delegado 6: envio-llave K_SC al cliente. continuado.
+delegado 6: envio-6840-reto al cliente. continuando 
+delegado 6: recibio-6840-reto correcto. continuado.
+delegado 6: recibio-OTg3Ng==-continuando
+delegado 6: envio-2029-cifrado con K_SC. continuado.
+delegado 6: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS:6:-7
+TIEMPO TRANSACCIÓN:6,32
+USO CPU:6:0.0
+delegado 7: recibio-HOLA-continuando.
+delegado 7: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 7: envio-OK-continuando.
+delegado 7: recibio-certificado del cliente. continuando.
+delegado 7: envio-OK-continuando.
+delegado 7: envio- certificado del servidor. continuando.
+delegado 7: recibio-OK-continuando.
+delegado 7: envio-llave K_SC al cliente. continuado.
+delegado 7: envio-3540-reto al cliente. continuando 
+delegado 7: recibio-3540-reto correcto. continuado.
+delegado 7: recibio-OTg3Ng==-continuando
+delegado 7: envio-2030-cifrado con K_SC. continuado.
+delegado 7: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS:7:-8
+TIEMPO TRANSACCIÓN:7,348
+USO CPU:7:27.9
+delegado 8: recibio-HOLA-continuando.
+delegado 8: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 8: envio-OK-continuando.
+delegado 8: recibio-certificado del cliente. continuando.
+delegado 8: envio-OK-continuando.
+delegado 8: envio- certificado del servidor. continuando.
+delegado 8: recibio-OK-continuando.
+delegado 8: envio-llave K_SC al cliente. continuado.
+delegado 8: envio-1620-reto al cliente. continuando 
+delegado 8: recibio-1620-reto correcto. continuado.
+delegado 8: recibio-OTg3Ng==-continuando
+delegado 8: envio-2030-cifrado con K_SC. continuado.
+delegado 8: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS:8:-9
+TIEMPO TRANSACCIÓN:8,123
+USO CPU:8:18.7
+delegado 9: recibio-HOLA-continuando.
+delegado 9: recibio-ALGORITMOS:AES:RSA:HMACSHA1-continuando.
+delegado 9: envio-OK-continuando.
+delegado 9: recibio-certificado del cliente. continuando.
+delegado 9: envio-OK-continuando.
+delegado 9: envio- certificado del servidor. continuando.
+delegado 9: recibio-OK-continuando.
+delegado 9: envio-llave K_SC al cliente. continuado.
+delegado 9: envio-1880-reto al cliente. continuando 
+delegado 9: recibio-1880-reto correcto. continuado.
+delegado 9: recibio-OTg3Ng==-continuando
+delegado 9: envio-2030-cifrado con K_SC. continuado.
+delegado 9: recibio-OK-Terminando exitosamente.
+TRANSACCIONES PERDIDAS:9:-10
+TIEMPO TRANSACCIÓN:9,237
+USO CPU:9:22.0
