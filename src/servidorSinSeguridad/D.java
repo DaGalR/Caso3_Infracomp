@@ -13,11 +13,9 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Random;
-
 import javax.crypto.SecretKey;
 import javax.xml.bind.DatatypeConverter;
 
-import Monitor.Monitor;
 
 public class D implements Runnable {
 
