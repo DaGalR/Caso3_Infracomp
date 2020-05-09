@@ -137,14 +137,16 @@ public class D implements Runnable {
 		String[] cadenas;
 		cadenas = new String[numCadenas];
 
-		String feedback;
+		double[] cpus = new double[3];
 		String linea;
 		System.out.println(dlg + "Empezando atencion con file " +file.getName() );
 		time_start = System.currentTimeMillis();
 		try {
 			PrintWriter ac = new PrintWriter(sc.getOutputStream() , true);
 			BufferedReader dc = new BufferedReader(new InputStreamReader(sc.getInputStream()));
-
+			
+			cpus[0] = this.getSystemCpuLoad();
+			
 			/***** Fase 1:  *****/
 			linea = dc.readLine();
 			if (!linea.equals(HOLA)) {
@@ -217,7 +219,9 @@ public class D implements Runnable {
 				cadenas[6] = dlg + REC + linea + "-continuando.";
 				System.out.println(cadenas[6]);
 			}
-
+			
+			cpus[1] = this.getSystemCpuLoad();
+			
 			/***** Fase 5: Envia llave simetrica *****/
 			SecretKey simetrica = S.kgg(algoritmos[1]);
 			byte [ ] ciphertext1 = S.ae(simetrica.getEncoded(), 
@@ -280,8 +284,10 @@ public class D implements Runnable {
 			System.out.println(cadenas[11]);
 			
 			//System.out.println("Monitor 245 D "+Monitor.getSystemCpuLoad());
-			System.out.println("CPU LOAD D 251 "+getSystemCpuLoad());
-
+			
+			cpus[2] = this.getSystemCpuLoad();
+			System.out.println("CPU LOAD D 251 "+ cpus[2]);
+			
 			linea = dc.readLine();	
 			if (linea.equals(OK)) {
 				time_end = System.currentTimeMillis();
@@ -308,7 +314,13 @@ public class D implements Runnable {
 		escribirMensajeMedidas("TRANSACCIONES PERDIDAS:" +idP+":"+ (C.contInst-contInstExitoso));
 		escribirMensajeMedidas("TIEMPO TRANSACCI�N:" +idP+","+ (time));
 		try {
-			escribirMensajeMedidas("USO CPU:" +idP+":"+ (this.getSystemCpuLoad()));
+			double max = 0;
+			for(int j=0;j<cpus.length-1;j++) {
+				if(cpus[j]>max) {
+					max = cpus[j];
+				}
+			}
+			escribirMensajeMedidas("USO CPU:" +idP+":"+ max);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
