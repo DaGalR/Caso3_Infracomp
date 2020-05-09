@@ -37,18 +37,18 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 public class ProtocoloCliente {
 
 	//-----------------------------------------------------------------------
-	//  Métodos
+	//  Mï¿½todos
 	//-----------------------------------------------------------------------
 	/**
 	 * 
-	 * @param stdIn canal de comunicaicón con el usuarios. 
-	 * @param pIn canal de comunicación de entrada con el servidor. 
-	 * @param pOut canal  de comunación de salida con el servidor.
+	 * @param stdIn canal de comunicaicï¿½n con el usuarios. 
+	 * @param pIn canal de comunicaciï¿½n de entrada con el servidor. 
+	 * @param pOut canal  de comunaciï¿½n de salida con el servidor.
 	 * @throws IOException 
 	 */
 	public static void procesar(BufferedReader stdIn, BufferedReader pIn,PrintWriter pOut) throws IOException{
 
-		//Variables para guardar en texto, la información dada por el cliente y el servidor
+		//Variables para guardar en texto, la informaciï¿½n dada por el cliente y el servidor
 		String[] algs;
 		String resServidor, resCliente, stringSerServidor,cifradoA,cifradoB, algHMACelegido,algAsimElegido, algSimElegido;
 		resServidor ="";
@@ -60,11 +60,11 @@ public class ProtocoloCliente {
 		algHMACelegido="";
 
 		//Variables para amacenar las llaves
-		Key k_scPro=null; //Llave simétrica
+		Key k_scPro=null; //Llave simï¿½trica
 		KeyPairGenerator generator;
 		KeyPair keyPair;
 
-		//Contador para ubicar al programa en la sección del protocolo que se encuntra. 
+		//Contador para ubicar al programa en la secciï¿½n del protocolo que se encuntra. 
 		int contadorProtocolo = 0;
 
 
@@ -78,7 +78,7 @@ public class ProtocoloCliente {
 				//Inicia el programa. Contador en 0 corresponde a saludo y contador en 1 al envio de algoritmos
 				if(contadorProtocolo==0 || contadorProtocolo==1)
 				{
-					System.out.println("INSTRUCCIÓN: Escriba el mensaje a enviar al servidor: ");
+					System.out.println("INSTRUCCIï¿½N: Escriba el mensaje a enviar al servidor: ");
 					resCliente="HOLA";
 
 
@@ -97,9 +97,9 @@ public class ProtocoloCliente {
 							algAsimElegido=algs[2];
 							algHMACelegido = algs[3];
 							//Thread.sleep(500);
-							System.out.println("REPORTE: algoritmo simétrico elegido " + algSimElegido);
+							System.out.println("REPORTE: algoritmo simï¿½trico elegido " + algSimElegido);
 							//Thread.sleep(500);
-							System.out.println("REPORTE: algoritmo asimétrico elegido " + algAsimElegido);
+							System.out.println("REPORTE: algoritmo asimï¿½trico elegido " + algAsimElegido);
 							//Thread.sleep(500);
 							System.out.println("REPORTE: algoritmo Hmac elegido " + algHMACelegido);
 							//Thread.sleep(500);
@@ -108,17 +108,17 @@ public class ProtocoloCliente {
 							pOut.println(resCliente);
 						}
 						else {
-							System.out.println("INSTRUCCIÓN: debe enviar una cadena del estilo ALGORITMOS:ALG1:ALG2:ALG3");
+							System.out.println("INSTRUCCIï¿½N: debe enviar una cadena del estilo ALGORITMOS:ALG1:ALG2:ALG3");
 							continue;
 						}
 					}
 					else 
 					{
-						System.out.println("REPORTE: Error detectado en su mensaje. \nINSTRUCCIÓN: intente escribir de nuevo siguiendo el protocolo.");
+						System.out.println("REPORTE: Error detectado en su mensaje. \nINSTRUCCIï¿½N: intente escribir de nuevo siguiendo el protocolo.");
 						continue;
 					}
 				}
-				//Recepción y envio de certificados. 
+				//Recepciï¿½n y envio de certificados. 
 				if(contadorProtocolo == 2 && algHMACelegido != null && algHMACelegido != "") 
 				{	
 					try {
@@ -155,11 +155,11 @@ public class ProtocoloCliente {
 
 							boolean valido = verificarCertificado(c);
 
-							//Si el certificado es válido se continua con la ejecuación del progama, se reciben los datos cifrados
+							//Si el certificado es vÃ¡lido se continua con la ejecuaciï¿½n del progama, se reciben los datos cifrados
 							if(valido)
 							{
 
-								System.out.println("REPORTE: El certificado recibido del servidor es válido. \nINSTRUCCIÓN: escriba 'OK' para continuar"); 
+								System.out.println("REPORTE: El certificado recibido del servidor es vÃ¡lido. \nINSTRUCCIÃ“N: escriba 'OK' para continuar"); 
 								resCliente="OK";
 								pOut.println(resCliente);
 
@@ -193,7 +193,7 @@ public class ProtocoloCliente {
 								continue;
 							}
 							else {
-								pOut.println("REPORTE: ERROR su certificado no es válido");
+								pOut.println("REPORTE: ERROR su certificado no es vï¿½lido");
 
 							}
 
@@ -212,10 +212,10 @@ public class ProtocoloCliente {
 					}
 				}
 
-				//Etapa de reporte y manejo de actualización
+				//Etapa de reporte y manejo de actualizaciÃ³n
 				if(contadorProtocolo==4 && k_scPro!=null)
 				{
-					System.out.println("INSTRUCCIÓN: Escriba su identificador (número de 4 dígitos)");
+					System.out.println("INSTRUCCIÃ“N: Escriba su identificador (nÃºmero de 4 dÃ­gitos)");
 					resCliente="9876";
 					byte[] idCifrado = Cifrado.cifrar(k_scPro, algSimElegido, resCliente, false);
 					String idCifradoStr=DatatypeConverter.printBase64Binary(idCifrado);
@@ -238,7 +238,7 @@ public class ProtocoloCliente {
 					//Thread.sleep(500);
 					System.out.println("REPORTE: La hora recibida es: " + hora.getHours() + ":" + hora.getMinutes());
 
-					System.out.println("INSTRUCCIÓN: Si todo está bien, escriba OK para terminar. De lo contrario escriba ERROR");
+					System.out.println("INSTRUCCIÃ“N: Si todo estÃ¡ bien, escriba OK para terminar. De lo contrario escriba ERROR");
 					resCliente="OK";
 					pOut.println(resCliente);
 					if(resCliente.equals("OK"))
@@ -247,7 +247,6 @@ public class ProtocoloCliente {
 						break;
 					}
 				}
-
 
 				resServidor = pIn.readLine();
 				if(resServidor.equals("ERROR")) {
@@ -260,20 +259,14 @@ public class ProtocoloCliente {
 					//Thread.sleep(500);
 					contadorProtocolo++;
 				}
-
-
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-
-
 	}
 
 	/**
-	 * Método para generar certificado
+	 * Mï¿½todo para generar certificado
 	 * @param keyPair par de llaves publicas y privadas
 	 * @return retorna el certificado
 	 * @throws OperatorCreationException
@@ -290,9 +283,9 @@ public class ProtocoloCliente {
 	}
 
 	/**
-	 * Método que verifica que el certificado dado por paremtro es válido. 
+	 * Mï¿½todo que verifica que el certificado dado por paremtro es vÃ¡lido. 
 	 * @param certificado a ser verificado.
-	 * @return retorna true si el certifado es válido, false de lo contrario. 
+	 * @return retorna true si el certifado es vÃ¡lido, false de lo contrario. 
 	 */
 	public static boolean verificarCertificado(X509Certificate certificado) {
 		PublicKey llave = certificado.getPublicKey();
