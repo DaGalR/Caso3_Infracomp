@@ -272,11 +272,8 @@ public class D implements Runnable {
 			ac.println(toHexString(ciphertext3));
 			cadenas[11] = dlg + ENVIO + strvalor + "-cifrado con K_SC. continuado.";
 			System.out.println(cadenas[11]);
-
-			//System.out.println("Monitor 245 D "+Monitor.getSystemCpuLoad());
 			
 			cpus[2] = this.getSystemCpuLoad();
-			System.out.println("CPU LOAD D 251 "+ cpus[2]);
 			
 			linea = dc.readLine();	
 			if (linea.equals(OK)) {

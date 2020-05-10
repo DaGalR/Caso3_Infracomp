@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.net.Socket;
 import java.security.KeyPair;
 import java.security.cert.CertificateFactory;
@@ -14,6 +15,10 @@ import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Random;
 import javax.crypto.SecretKey;
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import javax.xml.bind.DatatypeConverter;
 
 
@@ -37,16 +42,23 @@ public class D implements Runnable {
 	private static X509Certificate certSer;
 	private static KeyPair keyPairServidor;
 	private static File file;
+	private static File fileMedidas;
 	public static final int numCadenas = 13;
-
-	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile) {
+	private long time_start, time_end, time;
+	private static Integer contInstExitoso=0;
+	private static int contInst=0; 
+	private int idP;
+	
+	public static void init(X509Certificate pCertSer, KeyPair pKeyPairServidor, File pFile, File pMedidas) {
 		certSer = pCertSer;
 		keyPairServidor = pKeyPairServidor;
 		file = pFile;
+		fileMedidas = pMedidas;
 	}
 
 	public D (Socket csP, int idP) {
 		sc = csP;
+		this.idP=idP;
 		dlg = new String("delegado " + idP + ": ");
 		try {
 			mybyte = new byte[520]; 
@@ -74,12 +86,31 @@ public class D implements Runnable {
 	 */
 	private void escribirMensaje(String pCadena) {
 
-		try {
-			FileWriter fw = new FileWriter(file,true);
-			fw.write(pCadena + "\n");
-			fw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		synchronized(file)
+		{
+			try {
+				FileWriter fw = new FileWriter(file,true);
+				fw.write(pCadena + "\n");
+				fw.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+	/*
+	 * Para escribir mensajes en el archivo las mediciones. 
+	 */
+	private void escribirMensajeMedidas(String pCadena) {
+		synchronized(fileMedidas)
+		{
+			try {
+				FileWriter fw = new FileWriter(fileMedidas,true);
+				fw.write(pCadena + "\n");
+				fw.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -88,14 +119,18 @@ public class D implements Runnable {
 		String[] cadenas;
 		cadenas = new String[numCadenas];
 
-		String feedback;
+		double[] cpus = new double[3];
 		String linea;
 		System.out.println(dlg + "Empezando atencion con file " +file.getName() );
+		time_start = System.currentTimeMillis();
+
 		try {
 
 			PrintWriter ac = new PrintWriter(sc.getOutputStream() , true);
 			BufferedReader dc = new BufferedReader(new InputStreamReader(sc.getInputStream()));
 
+			cpus[0] = this.getSystemCpuLoad();
+			
 			/***** Fase 1:  *****/
 			linea = dc.readLine();
 			if (!linea.equals(HOLA)) {
@@ -145,10 +180,10 @@ public class D implements Runnable {
 			/***** Fase 3: Recibe certificado del cliente *****/				
 			String strCertificadoCliente = dc.readLine();
 			byte[] certificadoClienteBytes = new byte[520];
-			certificadoClienteBytes = toByteArray(strCertificadoCliente);
-			CertificateFactory creador = CertificateFactory.getInstance("X.509");
-			InputStream in = new ByteArrayInputStream(certificadoClienteBytes);
-			X509Certificate certificadoCliente = (X509Certificate)creador.generateCertificate(in);
+//			certificadoClienteBytes = toByteArray(strCertificadoCliente);
+//			CertificateFactory creador = CertificateFactory.getInstance("X.509");
+//			InputStream in = new ByteArrayInputStream(certificadoClienteBytes);
+//			X509Certificate certificadoCliente = (X509Certificate)creador.generateCertificate(in);
 			cadenas[3] = dlg + REC + "certificado del cliente. continuando.";
 			System.out.println(cadenas[3]);
 			ac.println(OK);
@@ -168,7 +203,9 @@ public class D implements Runnable {
 				cadenas[6] = dlg + REC + linea + "-continuando.";
 				System.out.println(cadenas[6]);
 			}
+			cpus[1] = this.getSystemCpuLoad();
 
+			
 			/***** Fase 5: Envia llave simetrica *****/
 			SecretKey simetrica = S.kgg(algoritmos[1]);
 			//byte [ ] ciphertext1 = S.ae(simetrica.getEncoded(), 
@@ -229,14 +266,24 @@ public class D implements Runnable {
 			ac.println(strvalor);
 			cadenas[11] = dlg + ENVIO + strvalor + "-cifrado con K_SC. continuado.";
 			System.out.println(cadenas[11]);
+			
+			cpus[2] = this.getSystemCpuLoad();
 
 			linea = dc.readLine();	
 			if (linea.equals(OK)) {
+				time_end = System.currentTimeMillis();
+				time = time_end-time_start;
 				cadenas[12] = dlg + REC + linea + "-Terminando exitosamente.";
+				synchronized(contInstExitoso)
+				{
+					contInstExitoso++;
+				}
 				System.out.println(cadenas[12]);
 			} else {
 				cadenas[12] = dlg + REC + linea + "-Terminando con error";
 				System.out.println(cadenas[12]);
+				time_end = System.currentTimeMillis();
+				time = time_end-time_start;
 			}
 			sc.close();
 
@@ -245,6 +292,20 @@ public class D implements Runnable {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		escribirMensajeMedidas("TRANSACCIONES EXITOSAS:" +idP+":"+ (contInstExitoso));
+		escribirMensajeMedidas("TIEMPO TRANSACCIÓN:" +idP+":"+ (time));
+		try {
+			double max = 0;
+			for(int j=0;j<cpus.length-1;j++) {
+				if(cpus[j]>max) {
+					max = cpus[j];
+				}
+			}
+			escribirMensajeMedidas("USO CPU:" +idP+":"+ max);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -256,5 +317,20 @@ public class D implements Runnable {
 	public static byte[] toByteArray(String s) {
 		return DatatypeConverter.parseBase64Binary(s);
 	}
-
+	
+	public double getSystemCpuLoad() throws Exception {
+		//System.out.println("Entro Monitor");
+		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+		ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+		AttributeList list = mbs.getAttributes(name, new String[]{ "SystemCpuLoad" });
+		//System.out.println("Tam lista Monitor "+  list.size());
+		if (list.isEmpty()) return Double.NaN;
+		Attribute att = (Attribute)list.get(0);
+		Double value = (Double)att.getValue();
+		// usually takes a couple of seconds before we get real values
+		if (value == -1.0) return Double.NaN;
+		// returns a percentage value with 1 decimal point precision
+		//System.out.println("Valor Monitor " + ((int)(value*1000)/10));
+		return ((int)(value * 1000) / 10.0);
+	}
 }

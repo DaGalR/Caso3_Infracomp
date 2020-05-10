@@ -1,7 +1,6 @@
 package clienteSinSeguridad;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutput;
@@ -13,7 +12,10 @@ public class Cliente {
 	public static final int PUERTO = 8080;
 	public static final String SERVIDOR = "172.24.99.143";
 	
-	public static void main(String[] args) throws IOException{
+	public Cliente() {
+		
+	}
+	public void procesar() throws IOException{
 		Socket socket = null;
 		PrintWriter escritor = null;
 		BufferedReader lector = null;
@@ -31,7 +33,7 @@ public class Cliente {
 		}
 		
 		
-		ProtocoloCliente.procesar(stdIn,lector,escritor);
+		clienteSinSeguridad.ProtocoloCliente.procesar(stdIn,lector,escritor);
 		
 		stdIn.close();
 		escritor.close();

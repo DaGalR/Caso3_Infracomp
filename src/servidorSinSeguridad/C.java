@@ -19,6 +19,7 @@ public class C {
 	private static final String MAESTRO = "MAESTRO: ";
 	private static X509Certificate certSer; /* acceso default */
 	private static KeyPair keyPairServidor; /* acceso default */
+	public static int contInst;
 
 	/**
 	 * @param args
@@ -44,10 +45,19 @@ public class C {
 			file.createNewFile();
 		}
 
-		FileWriter fw = new FileWriter(file);
-		fw.close();
+		ruta= "./medidas.txt";
+		File fileMedidas = null;
+		fileMedidas = new File(ruta);
+		if (!fileMedidas.exists()) {
+			try {
+				fileMedidas.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
-		D.init(certSer, keyPairServidor,file);
+		D.init(certSer, keyPairServidor,file,fileMedidas);
 
 		// Crea el socket que escucha en el puerto seleccionado.
 		ss = new ServerSocket(ip);
